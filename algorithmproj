@@ -1,0 +1,81 @@
+#include <iostream>
+#include <stdlib.h>
+#include <assert.h>
+#include <ctime>
+#include <algorithm>
+#include <array>
+#include <vector>
+/** use vectors!!!! **/
+using namespace std;
+// test cases
+vector<int> test1 = { 1,2,3,4,5,6,7,8,9,10 }; //55
+vector<int> test2 = { 1,2,-4,3,-5,2,0 }; //3
+vector<int> test3 = { -2, -3, 4, -1, -2, 1, 5, -3 }; //7
+
+
+// alg 3
+int AlgorithmThree(vector<int> &X, int L, int U) {
+	if (L > U) {
+		return 0; /* zero element vector */
+	}
+	if (L == U) {
+
+		return max(0, X[L]);
+
+	}
+	int M = (L + U) / 2;  /* A is X[L..M], B is X[M+1..U] */
+	int sum = 0;
+	int	maxToLeft = 0;
+
+	for (int I = M; I >= L; I--) {
+		sum = sum + X[I];
+		maxToLeft = max(maxToLeft, sum);
+	}
+	/* Find max crossing to right */
+	sum = 0;
+	int maxToRight = 0;
+	for (int I = M + 1; I <= U; I++) {
+		sum = sum + X[I];
+		maxToRight = max(maxToRight, sum);
+	}
+	int maxCrossing = maxToLeft + maxToRight;
+
+	int maxInA = AlgorithmThree(X, L, M);
+	int maxInB = AlgorithmThree(X, M + 1, U);
+
+	return max({ maxCrossing, maxInA, maxInB });
+
+}
+// alg 4	
+int AlgorithmFour(vector<int>&X) {
+	int maxSoFar = 0;
+	int maxEndingHere = 0;
+	
+	int P = 0;
+	int Q = X.size();
+	for (int I = P; I < Q; I++) {
+		maxEndingHere = max(0, maxEndingHere + X[I]);
+		maxSoFar = max(maxSoFar, maxEndingHere);
+	}
+	return maxSoFar;
+}
+
+/** test cases. will change main method later **/
+int main() {
+
+	cout << AlgorithmThree(test1, 0, 9) << "\n";
+	cout << AlgorithmThree(test2, 0, 6) << "\n";
+	cout << AlgorithmThree(test3, 0, 7) << "\n";
+	cout << AlgorithmFour(test1) << "\n";
+	cout << AlgorithmFour(test2) << "\n";
+	cout << AlgorithmFour(test3) << "\n";
+
+	return 0;
+}
+
+
+
+
+
+
+/** love you babe **/
