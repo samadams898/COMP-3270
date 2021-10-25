@@ -45,3 +45,49 @@ int algorithm2(vector<int> X) {
     }
     return maxSoFar;
 }
+
+// alg 3
+int algorithm3(vector<int> &X, int L, int U) {
+	if (L > U) {
+		return 0; /* zero element vector */
+	}
+	if (L == U) {
+
+		return max(0, X[L]);
+
+	}
+	int M = (L + U) / 2;  /* A is X[L..M], B is X[M+1..U] */
+	int sum = 0;
+	int	maxToLeft = 0;
+
+	for (int I = M; I >= L; I--) {
+		sum = sum + X[I];
+		maxToLeft = max(maxToLeft, sum);
+	}
+	/* Find max crossing to right */
+	sum = 0;
+	int maxToRight = 0;
+	for (int I = M + 1; I <= U; I++) {
+		sum = sum + X[I];
+		maxToRight = max(maxToRight, sum);
+	}
+	int maxCrossing = maxToLeft + maxToRight;
+
+	int maxInA = algorithm3(X, L, M);
+	int maxInB = algorithm3(X, M + 1, U);
+
+	return max({ maxCrossing, maxInA, maxInB });
+
+}
+// alg 4	
+int algorithm4(vector<int>&X) {
+	int maxSoFar = 0;
+	int maxEndingHere = 0;
+	
+	int P = 0;
+	int Q = X.size();
+	for (int I = P; I < Q; I++) {
+		maxEndingHere = max(0, maxEndingHere + X[I]);
+		maxSoFar = max(maxSoFar, maxEndingHere);
+	}
+	return maxSoFar;
