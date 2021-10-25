@@ -1,29 +1,34 @@
 #include <iostream>
 #include <vector>
+#include <algorithm>
 using namespace std;
 
 // function declarations
-int algorithm1(vector<int> X);
-int algorithm2(vector<int> X);
+int algorithm1(vector<int> &X);
+int algorithm2(vector<int> &X);
+int algorithm3(vector<int> &X, int L, int U);
+int algorithm4(vector<int> &X);
 
 // global variables
 
 // main method
 int main() {
-    std::cout << "something";
+    cout << "it works" << " trust me bro";
 }
 
 // function/algorithm definitions
 // each algorithm is a solution to MSCS
 
 // #1
-int algorithm1(vector<int> X) {
+int algorithm1(vector<int> &X) {
     int maxSoFar = 0;
-    for () {
-        for () {
+    int P = 0;
+    int Q = X.size();
+    for (int L = P; L < Q; L++) {
+        for (int U = L; U < Q; U++) {
             int sum = 0;
-            for () {
-                sum = sum + 1; // replace 1 with X[1], idk man??
+            for (int I = L; I <= U; I++) {
+                sum = sum + X[I]; 
                 // sum now contains the sum of X[L...U]
             }
             maxSoFar = max(maxSoFar, sum);
@@ -33,15 +38,17 @@ int algorithm1(vector<int> X) {
 }
 
 // #2
-int algorithm2(vector<int> X) {
+int algorithm2(vector<int> &X) {
     int maxSoFar = 0;
-    for () {
+    int P = 0;
+    int Q = X.size();
+    for (int L = P; L <= Q; L++) {
         int sum = 0;
-        for () {
-           sum = sum + 1; // replace 1 with X[U], idk man??
+        for (int U = L; U < Q; U++) {
+           sum = sum + X[U];
            // sum now contains the sum of X[L...U]
+           maxSoFar = max(maxSoFar, sum);
         }
-        maxSoFar = max(maxSoFar, sum);
     }
     return maxSoFar;
 }
@@ -76,11 +83,12 @@ int algorithm3(vector<int> &X, int L, int U) {
 	int maxInA = algorithm3(X, L, M);
 	int maxInB = algorithm3(X, M + 1, U);
 
-	return max({ maxCrossing, maxInA, maxInB });
-
+    int finalMax = max(max(maxCrossing, maxInA), maxInB);
+	return finalMax;
 }
+
 // alg 4	
-int algorithm4(vector<int>&X) {
+int algorithm4(vector<int> &X) {
 	int maxSoFar = 0;
 	int maxEndingHere = 0;
 	
@@ -91,3 +99,4 @@ int algorithm4(vector<int>&X) {
 		maxSoFar = max(maxSoFar, maxEndingHere);
 	}
 	return maxSoFar;
+}
