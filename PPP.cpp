@@ -13,7 +13,21 @@ int algorithm4(vector<int> &X);
 
 // main method
 int main() {
-    cout << "it works" << " trust me bro";
+    // this link is where this solution was from
+    // https://stackoverflow.com/questions/40945378/reading-a-comma-separated-file-into-an-integer-array
+    ifstream inputFile ("phw_input.txt");
+
+    vector<int> numbers;
+    string number_as_string;
+
+    while (getline(inputFile, number_as_string, ',')) {
+        numbers.push_back(stoi(number_as_string));
+    }
+
+    cout << "n : " << numbers.size() << "\n";
+    for (auto&& number : numbers) {
+        cout << number << "\n";
+    }
 }
 
 // function/algorithm definitions
