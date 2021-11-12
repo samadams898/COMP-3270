@@ -3,6 +3,9 @@
 #include <string>
 #include <vector>
 #include <algorithm>
+#include <time.h>
+
+
 using namespace std;
 
 // function declarations
@@ -34,7 +37,7 @@ int main() {
 
     cout << "algorithm 4: " << algorithm4(readArray) << "\n";
 
-    vector<vector<int>> cumshot;
+    vector<vector<int>> randommatrix;
 
     for (int i = 0; i < 19; i++) {
         vector<int> column;
@@ -43,9 +46,72 @@ int main() {
             column.push_back(rand() % 100 + 1);
 
         }
-        cumshot.push_back(column);
+        randommatrix.push_back(column);
     }
+    // get Empirical time
+    double t1 = 0, t2 = 0, t3 = 0, t4 = 0;
+    int N = 1000000;
+    vector<vector<int>> timeMatrix;
 
+    for (int i = 0; i < 19; i++) {
+
+        for (int j = 0; j < 8; j++) {
+
+            for (int k = N; k < N; k++) {
+                t1 = 0;
+                t2 = 0;
+                t3 = 0;
+                t4 = 0;
+
+                //start clock
+                // alg one
+                clock_t start = clock();
+              //  double begin = get_cpu_time();
+                algorithm1(randommatrix.at(i));
+                clock_t end = clock();
+                double elapsed = double(end - start) / CLOCKS_PER_SEC;
+               // double end = get_cpu_time();
+              //  double elapsed = (end - begin);
+
+                t1 = elapsed + t1;
+                cout << elapsed;
+
+                // alg 2
+       /**         start = clock();
+                algorithm2(randommatrix.at(i));
+                end = clock();
+                elapsed = double(end - start) / CLOCKS_PER_SEC;
+                t2 = elapsed + t2;
+
+                // alg 3
+               start = clock();
+                algorithm3(randommatrix.at(i), 0, randommatrix.at(i).size() - 1);
+                 end = clock();
+                 elapsed = double(end - start) / CLOCKS_PER_SEC;
+                t3 = elapsed + t3;
+
+                //alg 4
+                 start = clock();
+                algorithm4(randommatrix.at(i));
+                 end = clock();
+                 elapsed = double(end - start) / CLOCKS_PER_SEC;
+                t4 = elapsed + t4; **/
+
+
+            }
+
+            t1 = t1 / N;
+            t2 = t2 / N;
+            t3 = t3 / N;
+            t4 = t4 / N;
+
+            cout << t1 << "\n";
+
+
+
+        }
+        
+    }
 
 }
 
@@ -165,22 +231,6 @@ vector<int> read_file(string fileIn) {
     return X;
 }
 
-// alt solution
-// this link is where this solution was from
-    // https://stackoverflow.com/questions/40945378/reading-a-comma-separated-file-into-an-integer-array
-    // ifstream inputFile ("phw_input.txt");
-
-    //vector<int> numbers;
-    //string number_as_string;
-
-    //while (getline(inputFile, number_as_string, ',')) {
-        //numbers.push_back(stoi(number_as_string));
-    //}
-
-    //cout << "n : " << numbers.size() << "\n";
-    //for (auto&& number : numbers) {
-        //cout << number << "\n";
-    //}
 
 void writefile(vector<int>& X, int outputArray_size, string file) {
     ofstream outstream;
@@ -198,3 +248,8 @@ void writefile(vector<int>& X, int outputArray_size, string file) {
         << output_filename << " ***\n"
         << "*** Goodbye. ***";
 }
+
+
+
+
+
