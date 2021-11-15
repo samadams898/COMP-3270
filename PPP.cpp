@@ -34,7 +34,7 @@ int algorithm4(vector<int>& X);
 // helper function declarations
 bool check_file(string);
 vector<int> read_file(string);
-void write_file(string fileIn, vector<int> numIn);
+void write_file(string fileName, vector<vector<double>> numIn);
 
 // input file
 string file = "phw_input.txt";
@@ -65,7 +65,7 @@ int main() {
     // testing runtime execution using system clock
     //changed this to double idk why it was an int matrix tf
     vector<vector<double>> timeMatrix;
-    int N = 100000;
+    int N = 100;
     double t1 = 0, t2 = 0, t3 = 0, t4 = 0;
     for (int i = 0; i < 19; i++) {
         // honestly forgot why this is here
@@ -73,44 +73,48 @@ int main() {
         The first 4 indeces of the result vector are the t1, t2, t3, t4 
         the last four are the theoretical complexity * emperical.
         **/
+
+        // TIME TAKEN IN ns (NANOSECONDS)
         
         vector<double> result;
         for (int j = 0; j < 8; j++) {
+
             for (int k = 0; k < N; k++) {
+
                 t1 = 0, t2 = 0, t3 = 0, t4 = 0;
 
                 // Algo 1 runtime
                 auto start = high_resolution_clock::now();
                 algorithm1(matrix.at(i));
                 auto stop = high_resolution_clock::now();
-                auto duration = duration_cast<milliseconds>(stop - start);
+                auto duration = duration_cast<nanoseconds>(stop - start);
                 t1 += duration.count();
 
                 // Algo 2 runtime
-                /**
+                
                 start = high_resolution_clock::now();
                 algorithm2(matrix.at(i));
                 stop = high_resolution_clock::now();
-                duration = duration_cast<milliseconds>(stop - start);
+                duration = duration_cast<nanoseconds>(stop - start);
                 t2 += duration.count();
-                **/
+                
 
                 // Algo 3 runtime
-                /**
+                
                 start = high_resolution_clock::now();
                 algorithm3(matrix.at(i), 0, matrix.at(i).size() - 1);
                 stop = high_resolution_clock::now();
-                duration = duration_cast<milliseconds>(stop - start);
+                duration = duration_cast<nanoseconds>(stop - start);
                 t3 += duration.count();
-                **/
+                
                 // Algo 4 runtime
-                /**
+                
                 start = high_resolution_clock::now();
                 algorithm4(matrix.at(i));
                 stop = high_resolution_clock::now();
-                duration = duration_cast<milliseconds>(stop - start);
+                duration = duration_cast<nanoseconds>(stop - start);
                 t4 += duration.count();
-                **/
+               
 
                 // alt solution: sam adams
                 /** uses <time.h> library
@@ -126,17 +130,19 @@ int main() {
             }
             // finding averages
             t1 /= N;
-            //t2 /= N;
-            //t3 /= N;
-            //t4 /= N;
-            cout << t1 << "\n";
+            t2 /= N;
+            t3 /= N;
+            t4 /= N;
+            
             //load result with t1,t2,t3,t4 
+            result.clear();
             result.push_back(t1);
             result.push_back(t2);
             result.push_back(t3);
             result.push_back(t4);
 
             //then load it with the emperical * theoretical time complexities.
+            //the emp * ceiling(T(n)) will be loaded into the last 4 indeces of the array
 
         }
         //here i think you add the result vector into the i of the timeMAtrix
@@ -146,6 +152,8 @@ int main() {
 
 
     //we need to make the write file function
+    write_file("adams_phw_output.txt", timeMatrix);
+
     return 0;
 }
 
@@ -257,22 +265,31 @@ vector<int> read_file(string fileIn) {
     string number_as_string;
     while (getline(stream, number_as_string, ',')) {
         X.push_back(stoi(number_as_string));
+
     }
     return X;
 }
 
 
 // from software constructon project 3
-void write_file(string fileIn, vector<int> numIn) {
+void write_file(string fileName, vector<vector<double>> numIn) {
 
     ofstream write;
-    write.open(fileIn, ios::app);
+    write.open(fileName, ios::app);
     write << "algorithm-1,algorithm-2,algorithm-3,algorithm-4,T1(n),T2(n),T3(n), T4(n)" << "\n";
 
-    // write out the things with commas
-    // will do that later
-    for (int i = 0; i < numIn.size(); i++) {
-        write << numIn.at(i) << endl;
+    
+    for (int i = 0; i < 19; i++) {
+
+// i suggest using this on visual studio code to see output file instantly.
+//CHANGE THIS TO J < 8 AFTER ADDING THEORETICAL COMP
+        for (int j = 0; j < 4; j++) {
+
+
+            write << numIn.at(i).at(j) << ", ";
+
+        }
+        write << endl;
 
     }
     write.close();
