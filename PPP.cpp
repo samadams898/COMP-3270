@@ -22,7 +22,7 @@ stack overflow for delimiting commas in an input file
 stack overflow for measuring execution time
 
 Certification statement: I certify that I wrote the code I am submitting. I did not copy whole or parts of it from another student or have another person write the code for me.
-Any code I am reusing in my program is clearly marked as such with its source clearly identified in comments. 
+Any code I am reusing in my program is clearly marked as such with its source clearly identified in comments.
 **/
 
 // function declarations
@@ -34,6 +34,7 @@ int algorithm4(vector<int>& X);
 // helper function declarations
 bool check_file(string);
 vector<int> read_file(string);
+void write_file(string fileIn, vector<int> numIn);
 
 // input file
 string file = "phw_input.txt";
@@ -62,16 +63,22 @@ int main() {
     }
 
     // testing runtime execution using system clock
-    vector<vector<int>> timeMatrix;
+    //changed this to double idk why it was an int matrix tf
+    vector<vector<double>> timeMatrix;
     int N = 100000;
     double t1 = 0, t2 = 0, t3 = 0, t4 = 0;
     for (int i = 0; i < 19; i++) {
         // honestly forgot why this is here
-        // vector<double> result;
+        /** This is the result vector that is put into the first row of the timeMatrix.
+        The first 4 indeces of the result vector are the t1, t2, t3, t4 
+        the last four are the theoretical complexity * emperical.
+        **/
+        
+        vector<double> result;
         for (int j = 0; j < 8; j++) {
             for (int k = 0; k < N; k++) {
                 t1 = 0, t2 = 0, t3 = 0, t4 = 0;
-                
+
                 // Algo 1 runtime
                 auto start = high_resolution_clock::now();
                 algorithm1(matrix.at(i));
@@ -123,8 +130,22 @@ int main() {
             //t3 /= N;
             //t4 /= N;
             cout << t1 << "\n";
+            //load result with t1,t2,t3,t4 
+            result.push_back(t1);
+            result.push_back(t2);
+            result.push_back(t3);
+            result.push_back(t4);
+
+            //then load it with the emperical * theoretical time complexities.
+
         }
+        //here i think you add the result vector into the i of the timeMAtrix
+        timeMatrix.push_back(result);
+
     }
+
+
+    //we need to make the write file function
     return 0;
 }
 
@@ -238,4 +259,22 @@ vector<int> read_file(string fileIn) {
         X.push_back(stoi(number_as_string));
     }
     return X;
+}
+
+
+// from software constructon project 3
+void write_file(string fileIn, vector<int> numIn) {
+
+    ofstream write;
+    write.open(fileIn, ios::app);
+    write << "algorithm-1,algorithm-2,algorithm-3,algorithm-4,T1(n),T2(n),T3(n), T4(n)" << "\n";
+
+    // write out the things with commas
+    // will do that later
+    for (int i = 0; i < numIn.size(); i++) {
+        write << numIn.at(i) << endl;
+
+    }
+    write.close();
+
 }
