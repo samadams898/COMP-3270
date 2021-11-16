@@ -12,13 +12,16 @@ using namespace std::chrono;
 Brian Shin + Samuel Adams
 COMP 3270 - Yilmaz, Levent
 Programming Assignment: MSCS Problem
+
 Compile and run with C++ (mingw-w64\\x86_64-8.1.0-posix-seh-rt_v6-rev0)
 IDE used: Visual Studio Code
+
 References used:
-c++ for vector
+c++ for vector: https://www.cplusplus.com/reference/vector/vector/
 reuse of code from COMP 2710 for reading/writing files
-stack overflow for delimiting commas in an input file
-stack overflow for measuring execution time
+stack overflow for delimiting commas in an input file: https://stackoverflow.com/questions/40945378/reading-a-comma-separated-file-into-an-integer-array
+stack overflow for measuring execution time: https://www.geeksforgeeks.org/measure-execution-time-function-cpp/
+
 Certification statement: I certify that I wrote the code I am submitting. I did not copy whole or parts of it from another student or have another person write the code for me.
 Any code I am reusing in my program is clearly marked as such with its source clearly identified in comments.
 **/
@@ -112,7 +115,6 @@ int main() {
                 t4 += duration.count();
             }
 
-
             // finding averages
             t1 /= N;
             t2 /= N;
@@ -129,14 +131,12 @@ int main() {
             //then load it with the emperical * theoretical time complexities.
             //the emp * ceiling(T(n)) will be loaded into the last 4 indeces of the array
             int inputSize = (i + 2) * 5;
-            for (int z = 0; z <= 3; z++) {
-                result.push_back(tnComplexity(z, inputSize));
+            for (int algoNum = 0; algoNum <= 3; algoNum++) {
+                result.push_back(tnComplexity(algoNum + 1, inputSize));
             }
         }
-        
         timeMatrix.push_back(result);
     }
-
     write_file("adams_phw_output.txt", timeMatrix);
     return 0;
 }
@@ -227,6 +227,7 @@ int algorithm4(vector<int>& X) {
 
 // helper functions
 
+// From Software Construction Project 3
 bool check_file(string file) {
     ifstream stream;
 
@@ -237,7 +238,8 @@ bool check_file(string file) {
     stream.close();
     return true;
 }
-//read file from Soft Construction Project 3
+
+// From Software Construction Project 3
 vector<int> read_file(string fileIn) {
     ifstream stream;
     vector<int> X;
@@ -272,19 +274,19 @@ void write_file(string fileName, vector<vector<double>> numIn) {
     double tnComplexity(int algo, int n) {
         double TN = 0;
         switch (algo) {
-            case 0:
+            case 1: // algo 1 T(n)
                 TN = (7/6*n*n*n) + (7*n*n) + (41/6*n) + (6);
                 break;
-            case 1:
+            case 2: // algo 1 T(n)
                 TN = (6*n*n) + (8*n) + (5);
                 break;
-            case 2:
+            case 3: // algo 3 T(n)
                 if (n == 0) {
-                    TN = 4;
+                    TN = 4; // base case
                 }
                 TN = ((11*n) + ((12*n)+38)*(n-1));
                 break;
-            case 3:
+            case 4: // algo 4 T(n)
                 TN = (14*n) + 5;
                 break;
             default:
