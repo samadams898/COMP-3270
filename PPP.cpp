@@ -12,16 +12,13 @@ using namespace std::chrono;
 Brian Shin + Samuel Adams
 COMP 3270 - Yilmaz, Levent
 Programming Assignment: MSCS Problem
-
 Compile and run with C++ (mingw-w64\\x86_64-8.1.0-posix-seh-rt_v6-rev0)
 IDE used: Visual Studio Code
-
 References used:
 c++ for vector
-reuse of code from COMP 2710 for reading files
+reuse of code from COMP 2710 for reading/writing files
 stack overflow for delimiting commas in an input file
 stack overflow for measuring execution time
-
 Certification statement: I certify that I wrote the code I am submitting. I did not copy whole or parts of it from another student or have another person write the code for me.
 Any code I am reusing in my program is clearly marked as such with its source clearly identified in comments.
 **/
@@ -67,8 +64,11 @@ int main() {
     // testing runtime execution using system clock
     //changed this to double idk why it was an int matrix tf
     vector<vector<double>> timeMatrix;
+
     int N = 100;
+
     double t1 = 0, t2 = 0, t3 = 0, t4 = 0;
+
     for (int i = 0; i < 19; i++) {
         /** This is the result vector that is put into the first row of the timeMatrix.
         The first 4 indeces of the result vector are the t1, t2, t3, t4 
@@ -79,6 +79,7 @@ int main() {
         for (int j = 0; j < 8; j++) {
 
             for (int k = 0; k < N; k++) {
+
                 t1 = 0, t2 = 0, t3 = 0, t4 = 0;
 
                 // TIME TAKEN IN ns (NANOSECONDS)
@@ -110,6 +111,8 @@ int main() {
                 duration = duration_cast<nanoseconds>(stop - start);
                 t4 += duration.count();
             }
+
+
             // finding averages
             t1 /= N;
             t2 /= N;
@@ -125,15 +128,15 @@ int main() {
 
             //then load it with the emperical * theoretical time complexities.
             //the emp * ceiling(T(n)) will be loaded into the last 4 indeces of the array
-            int cap = (i + 2) * 5;
+            int inputSize = (i + 2) * 5;
             for (int z = 0; z <= 3; z++) {
-                result.push_back(tnComplexity(z, cap));
+                result.push_back(tnComplexity(z, inputSize));
             }
         }
-        // here i think you add the result vector into the i of the timeMAtrix
+        
         timeMatrix.push_back(result);
     }
-    // we need to make the write file function
+
     write_file("adams_phw_output.txt", timeMatrix);
     return 0;
 }
@@ -234,7 +237,7 @@ bool check_file(string file) {
     stream.close();
     return true;
 }
-
+//read file from Soft Construction Project 3
 vector<int> read_file(string fileIn) {
     ifstream stream;
     vector<int> X;
@@ -248,7 +251,7 @@ vector<int> read_file(string fileIn) {
     return X;
 }
 
-// from software constructon project 3
+// From Software Construction Project 3
 void write_file(string fileName, vector<vector<double>> numIn) {
     ofstream write;
 
@@ -256,7 +259,7 @@ void write_file(string fileName, vector<vector<double>> numIn) {
     write << "algorithm-1,algorithm-2,algorithm-3,algorithm-4,T1(n),T2(n),T3(n), T4(n)" << "\n";
     for (int i = 0; i < 19; i++) {
         // i suggest using this on visual studio code to see output file instantly.
-        //CHANGE THIS TO J < 8 AFTER ADDING THEORETICAL COMP
+        
         for (int j = 0; j < 8; j++) {
             write << numIn.at(i).at(j) << ", ";
         }
@@ -269,19 +272,19 @@ void write_file(string fileName, vector<vector<double>> numIn) {
     double tnComplexity(int algo, int n) {
         double TN = 0;
         switch (algo) {
-            case 1:
+            case 0:
                 TN = (7/6*n*n*n) + (7*n*n) + (41/6*n) + (6);
                 break;
-            case 2:
+            case 1:
                 TN = (6*n*n) + (8*n) + (5);
                 break;
-            case 3:
+            case 2:
                 if (n == 0) {
                     TN = 4;
                 }
                 TN = ((11*n) + ((12*n)+38)*(n-1));
                 break;
-            case 4:
+            case 3:
                 TN = (14*n) + 5;
                 break;
             default:
