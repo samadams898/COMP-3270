@@ -275,19 +275,19 @@ void write_file(string fileName, vector<vector<double>> numIn) {
         double TN = 0;
         switch (algo) {
             case 1: // algo 1 T(n)
-                TN = (7/6*n*n*n) + (7*n*n) + (41/6*n) + (6);
+                TN = (7/6*n*n*n) + (13/2*n*n) + (22/3*n) + (5);
                 break;
-            case 2: // algo 1 T(n)
+            case 2: // algo 2 T(n)
                 TN = (6*n*n) + (8*n) + (5);
                 break;
             case 3: // algo 3 T(n)
                 if (n == 0) {
                     TN = 4; // base case
                 }
-                TN = ((11*n) + ((12*n)+38)*(n-1));
+                TN = ((11*n) + ((12*n)+36)*(n-1));
                 break;
             case 4: // algo 4 T(n)
-                TN = (14*n) + 5;
+                TN = (13*n) + 5;
                 break;
             default:
                 break;
